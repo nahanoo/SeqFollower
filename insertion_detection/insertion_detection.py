@@ -1,42 +1,51 @@
-from Bio import SeqIO
-from os.path import join
-from subprocess import call, run as r, DEVNULL, STDOUT
+from os.path import join, exists
+from os import mkdir, remove
 from io import StringIO
+from subprocess import call, run as r, DEVNULL, STDOUT
+from Bio import SeqIO
 import pandas as pd
-from plotting import plot_alignment
+from .plotting import plot_alignment
 
 
 class Insertion():
-    def __init__(self):
-        self.out_dir = 'test_data'
+    def __init__(self, args):
+        self.out_dir = args.out_dir
+        self.reference = args.anceteral
+        self.mutant_gbk = args.mutant
+
         self.step = 10000
         self.window = 50000
-        self.mutant_gbk = 'test_data/assembly.gbk'
+
+        
         self.mutant_contigs = [contig for contig in SeqIO.parse(
             self.mutant_gbk, 'genbank')]
+        self.genbank = self.parse_genbank()
+
         self.mutant_fasta = join(self.out_dir, 'mutant.fasta')
         with open(join(self.out_dir, 'mutant.fasta'), 'w') as handle:
             SeqIO.write(self.mutant_contigs, handle, 'fasta')
-        self.reference = 'test_data/reference.fasta'
+
         self.ref_contigs = [contig for contig in SeqIO.parse(
             self.reference, 'fasta')]
-        self.insertions = None
-        self.genbank = None
+
         self.bam = join(self.out_dir, "aligned.sorted.bam")
+        self.insertions = None
+
         self.annotated = pd.DataFrame(
             columns=['chromosome', 'position', 'length', 'start', 'end', 'protein'])
 
     def parse_genbank(self):
-        self.genbank = {contig.id: {} for contig in self.mutant_contigs}
+        genbank = {contig.id: {} for contig in self.mutant_contigs}
         for contig in self.mutant_contigs:
             for feature in contig.features:
                 try:
                     start = feature.location.start
                     end = feature.location.end
                     product = feature.qualifiers['product']
-                    self.genbank[contig.id][(start, end)] = product[0]
+                    genbank[contig.id][(start, end)] = product[0]
                 except KeyError:
                     pass
+        return genbank
 
     def chunker(self, seq, window_size, step):
         """Creates chunks of a sequence. window_size defines
@@ -106,7 +115,8 @@ class Insertion():
         df = df[df['coverage'] == 0]
         self.insertions = self.concat_insertions(df)
         self.insertions['position'] = self.insertions['position'] - 1
-        self.insertions.to_csv(join(self.out_dir, 'insertions.tsv'), sep='\t')
+        self.insertions.to_csv(
+            join(self.out_dir, 'insertions.tsv'), sep='\t', index=False)
 
     def concat_insertions(self, df):
         out = pd.DataFrame(columns=['chromosome', 'position', 'length'])
@@ -124,7 +134,6 @@ class Insertion():
         return out
 
     def annotate(self):
-        self.parse_genbank()
         i = 0
         for counter, row in self.insertions.iterrows():
             c = row['chromosome']
@@ -135,15 +144,14 @@ class Insertion():
                     self.annotated.loc[i] = [c, p, l, start, end, product]
                     i += 1
         self.annotated.to_csv(
-            join(self.out_dir, 'insertions.annotaed.tsv'), sep='\t')
+            join(self.out_dir, 'insertions.annotated.tsv'), sep='\t', index=False)
 
     def plot_insertions(self):
-        for chromosome, position in zip(self.insertions['chromosome'], self.insertions['position']):
-            target = join(self.out_dir,'.'.join([chromosome,str(position),'pdf']))
-            plot_alignment(self.bam,chromosome,position,target)
+        if not exists(join(self.out_dir, 'plots')):
+            mkdir(join(self.out_dir, 'plots'))
 
-i = Insertion()
-# i.mapper()
-no_cov = i.get_insertions()
-i.annotate()
-i.plot_insertions()
+        for chromosome, position in zip(self.insertions['chromosome'], self.insertions['position']):
+            plot_alignment(self.bam, chromosome, position, self.out_dir)
+
+    def clean(self):
+        remove(self.mutant_fasta)
