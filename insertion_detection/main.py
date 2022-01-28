@@ -24,4 +24,5 @@ def main():
     i.annotate()
     if args.plot:
         i.plot_insertions()
+        i.plot_annotation()
     i.clean()
