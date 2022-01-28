@@ -89,7 +89,6 @@ class Insertion():
         sam = join(self.out_dir, "aligned.sam")
         cmd = [
             "minimap2",
-            "--secondary=no",
             "-ax",
             "asm5",
             self.mutant_fasta,
