@@ -4,7 +4,7 @@ from io import StringIO
 from subprocess import call, run as r, DEVNULL, STDOUT
 from Bio import SeqIO
 import pandas as pd
-from .plotting import plot_alignment
+from .plotting import plot_alignment, plot_genbank
 
 
 class Insertion():
@@ -16,7 +16,6 @@ class Insertion():
         self.step = 10000
         self.window = 50000
 
-        
         self.mutant_contigs = [contig for contig in SeqIO.parse(
             self.mutant_gbk, 'genbank')]
         self.genbank = self.parse_genbank()
@@ -33,6 +32,9 @@ class Insertion():
 
         self.annotated = pd.DataFrame(
             columns=['chromosome', 'position', 'length', 'start', 'end', 'protein'])
+
+        if not exists(join(self.out_dir, 'plots')):
+            mkdir(join(self.out_dir, 'plots'))
 
     def parse_genbank(self):
         genbank = {contig.id: {} for contig in self.mutant_contigs}
@@ -103,7 +105,7 @@ class Insertion():
         call(" ".join(cmd), shell=True, stdout=DEVNULL,
              stderr=STDOUT)
         cmd = ['samtools', 'index', self.bam]
-        # Calling minimap and surpressing stdout
+        # Calling samtools and surpressing stdout
         call(" ".join(cmd), shell=True, stdout=DEVNULL,
              stderr=STDOUT)
 
@@ -140,18 +142,28 @@ class Insertion():
             p = row['position']
             l = row['length']
             for (start, end), product in self.genbank[c].items():
-                if (start >= p) & (end <= p+l):
+                if (p >= start) & (p+l <= end):
                     self.annotated.loc[i] = [c, p, l, start, end, product]
                     i += 1
         self.annotated.to_csv(
             join(self.out_dir, 'insertions.annotated.tsv'), sep='\t', index=False)
 
     def plot_insertions(self):
-        if not exists(join(self.out_dir, 'plots')):
-            mkdir(join(self.out_dir, 'plots'))
+        out = join(self.out_dir, 'plots', 'alignments')
+        if not exists(out):
+            mkdir(out)
 
         for chromosome, position in zip(self.insertions['chromosome'], self.insertions['position']):
-            plot_alignment(self.bam, chromosome, position, self.out_dir)
+            plot_alignment(self.bam, chromosome, position, out)
+
+    def plot_annotation(self):
+        out = join(self.out_dir, 'plots', 'annotations')
+        if not exists(out):
+            mkdir(out)
+        for i, row in self.insertions.iterrows():
+            plot_genbank(
+                self.mutant_contigs, row['chromosome'], row['position'],
+                row['position']+row['length'], out)
 
     def clean(self):
         remove(self.mutant_fasta)
