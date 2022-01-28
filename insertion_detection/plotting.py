@@ -30,46 +30,36 @@ def plot_alignment(bam, chromosome, position, out):
         else:
             strand = -1
         gf = GraphicFeature(start=read.reference_start, end=read.reference_end, strand=strand,
-                            color="#ffd700", label=read.query_name)
+                            color="#673AB7", label=read.query_name)
         features.append(gf)
     record = GraphicRecord(sequence_length=end, features=features)
     record = record.crop((start, end))
-    target = join(out, 'plots', '.'.join(
-                [chromosome, str(position), 'pdf']))
-    record.plot_on_multiple_pages(target,
+    f_name = '.'.join([chromosome, str(position), 'pdf'])
+    record.plot_on_multiple_pages(join(out,f_name),
                                   nucl_per_line=end-start,
                                   lines_per_page=10,
                                   plot_sequence=False
                                   )
 
-def plot_products(bam,out):
-    a = pysam.AlignmentFile(bam)
-    f = join(out,'insertions.annotated.tsv')
-    df = pd.read_csv(f,sep='\t')
-    locations = set([(c,p) for c,p in zip(df['chromosome'],df['position'])])
-    for location in locations:
-        
-    for i,row in df.iterrows():
-        c = row['chromosome']
-        p = row['position']
-        l = row['length']
-        start = row['start']
-        end = row['end']
-        product = row['product']
-        padding = 10000
-        if p - padding < 0:
-            start = 0
-        else:
-            start = p - padding
+def plot_genbank(genbank_list, chromosome, start,end, out):
+    genbank = {contig.id: contig for contig in genbank_list}
+    features = []
 
-        ref_length = a.get_reference_length(c)
-        if p + padding > ref_length:
-            end = ref_length
-        else:
-            end = p + padding
-        
-        features = []
-        gf = GraphicFeature(start=read.reference_start, end=read.reference_end, strand=strand,
-                            color="#ffd700", label=read.query_name)
-        features.append(gf)
-
+    for feature in genbank[chromosome].features:
+        f_start = feature.location.start
+        f_end = feature.location.end
+        if (f_start >= start) & (f_end <= end):
+            try:
+                gf = GraphicFeature(start=f_start, end=f_end, strand=feature.location.strand,
+                                    color="#673AB7", label=feature.qualifiers['product'][0])
+                features.append(gf)
+            except KeyError:
+                pass
+    record = GraphicRecord(sequence_length=end, features=features)
+    record = record.crop((start, end))
+    f_name = '.'.join([chromosome, str(start), 'pdf'])
+    record.plot_on_multiple_pages(join(out, f_name),
+                                  nucl_per_line=(end-start)/3,
+                                  lines_per_page=10,
+                                  plot_sequence=False
+                                  )
