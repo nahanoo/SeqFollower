@@ -10,28 +10,28 @@ from .plotting import plot_alignment, plot_genbank
 class Insertion():
     def __init__(self, args):
         self.out_dir = args.out_dir
-        self.reference = args.anceteral
+        self.reference = args.ancestral
         self.mutant_gbk = args.mutant
 
-        self.step = 10000
-        self.window = 50000
+        self.step = 100
+        self.window = 500
 
         self.mutant_contigs = [contig for contig in SeqIO.parse(
             self.mutant_gbk, 'genbank')]
-        self.genbank = self.parse_genbank()
+        self.mutant_features = self.parse_genbank()
 
         self.mutant_fasta = join(self.out_dir, 'mutant.fasta')
         with open(join(self.out_dir, 'mutant.fasta'), 'w') as handle:
             SeqIO.write(self.mutant_contigs, handle, 'fasta')
 
-        self.ref_contigs = [contig for contig in SeqIO.parse(
+        self.reference_contigs = [contig for contig in SeqIO.parse(
             self.reference, 'fasta')]
 
         self.bam = join(self.out_dir, "aligned.sorted.bam")
         self.insertions = None
 
         self.annotated = pd.DataFrame(
-            columns=['chromosome', 'position', 'length', 'start', 'end', 'protein'])
+            columns=['chromosome', 'position', 'length', 'product'])
 
         if not exists(join(self.out_dir, 'plots')):
             mkdir(join(self.out_dir, 'plots'))
@@ -72,7 +72,7 @@ class Insertion():
         """Chunks an assembly of multiple contigs into different 
         chunks using a sliding window algorightm (see chunker function)."""
         assembly_chunks = []
-        for contig in self.ref_contigs:
+        for contig in self.reference_contigs:
             # Creates chunks of every contig
             assembly_chunks += self.chunker(contig, self.window, self.step)
         target = join(self.out_dir,
@@ -109,15 +109,13 @@ class Insertion():
              stderr=STDOUT)
 
     def get_insertions(self):
-        cmd = ['samtools', 'depth', '-aa', '-J', '-Q', '60', self.bam]
+        cmd = ['samtools', 'depth', '-aa', '-J', '-Q', '0', self.bam]
         process = r(cmd, capture_output=True)
         df = pd.read_csv(StringIO(process.stdout.decode()), sep='\t')
         df.columns = ['chromosome', 'position', 'coverage']
         df = df[df['coverage'] == 0]
         self.insertions = self.concat_insertions(df)
         self.insertions['position'] = self.insertions['position'] - 1
-        self.insertions.to_csv(
-            join(self.out_dir, 'insertions.tsv'), sep='\t', index=False)
 
     def concat_insertions(self, df):
         out = pd.DataFrame(columns=['chromosome', 'position', 'length'])
@@ -140,10 +138,23 @@ class Insertion():
             c = row['chromosome']
             p = row['position']
             l = row['length']
-            for (start, end), product in self.genbank[c].items():
-                if (p >= start) & (p+l <= end):
-                    self.annotated.loc[i] = [c, p, l, start, end, product]
-                    i += 1
+            products = self.annotate_position(c, p, l)
+            for product in products:
+                self.annotated.loc[i] = [c, p, l, product]
+                i += 1
+        self.annotated = self.annotated.drop_duplicates()
+
+    def annotate_position(self, c, p, l):
+        """Returns products in a region in a genbank."""
+        products = []
+        for (start, end), product in self.mutant_features[c].items():
+            if not set(range(start, end)).isdisjoint(range(p, p+l)):
+                products.append(product)
+        return products
+
+    def dump(self):
+        self.insertions.to_csv(
+            join(self.out_dir, 'insertions.tsv'), sep='\t', index=False)
         self.annotated.to_csv(
             join(self.out_dir, 'insertions.annotated.tsv'), sep='\t', index=False)
 
@@ -152,8 +163,10 @@ class Insertion():
         if not exists(out):
             mkdir(out)
 
-        for chromosome, position in zip(self.insertions['chromosome'], self.insertions['position']):
-            plot_alignment(self.bam, chromosome, position, out)
+        for chromosome, position, length in zip(self.insertions['chromosome'], self.insertions['position'],
+                                                self.insertions['length']):
+            plot_alignment(self.bam, chromosome, position,
+                           length, self.window, out)
 
     def plot_annotation(self):
         out = join(self.out_dir, 'plots', 'annotations')
@@ -165,4 +178,8 @@ class Insertion():
                 row['position']+row['length'], out)
 
     def clean(self):
-        remove(self.mutant_fasta)
+        trash = [self.mutant_fasta,
+                 join(self.out_dir, 'chunked_sequences.fasta')
+                 ]
+        for item in trash:
+            remove(item)
