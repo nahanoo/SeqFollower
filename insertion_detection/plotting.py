@@ -4,23 +4,23 @@ from os.path import join
 import pandas as pd
 
 
-def plot_alignment(bam, chromosome, position, out):
+def plot_alignment(bam, chromosome, position, length, window, out):
     a = pysam.AlignmentFile(bam)
-    padding = 50000
+    padding = window * 2
     if position - padding < 0:
         start = 0
     else:
         start = position - padding
 
     ref_length = a.get_reference_length(chromosome)
-    if position + padding > ref_length:
+    if position + padding + length > ref_length:
         end = ref_length
     else:
-        end = position + padding
+        end = position + length + padding
 
     reads = []
     for read in a.fetch(chromosome, start, end):
-        if (not read.is_unmapped) & (not read.is_secondary) & (read.mapq == 60):
+        if (not read.is_unmapped) & (not read.is_secondary):
             reads.append(read)
 
     features = []
@@ -35,13 +35,14 @@ def plot_alignment(bam, chromosome, position, out):
     record = GraphicRecord(sequence_length=end, features=features)
     record = record.crop((start, end))
     f_name = '.'.join([chromosome, str(position), 'pdf'])
-    record.plot_on_multiple_pages(join(out,f_name),
+    record.plot_on_multiple_pages(join(out, f_name),
                                   nucl_per_line=end-start,
                                   lines_per_page=10,
                                   plot_sequence=False
                                   )
 
-def plot_genbank(genbank_list, chromosome, start,end, out):
+
+def plot_genbank(genbank_list, chromosome, start, end, out):
     genbank = {contig.id: contig for contig in genbank_list}
     features = []
 
