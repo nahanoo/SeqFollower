@@ -1,7 +1,2 @@
-layout: page
-title: "test"
-permalink: /deltec/
-
-
-# test
+# est
 asd
