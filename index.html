@@ -278,6 +278,26 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    Outputs
+  </a>
+  
+    <nav class="md-nav" aria-label="Outputs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plots" class="md-nav__link">
+    Plots
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -409,6 +429,26 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    Outputs
+  </a>
+  
+    <nav class="md-nav" aria-label="Outputs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#plots" class="md-nav__link">
+    Plots
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -467,12 +507,12 @@ conda install -c bioconda minimap2
 <p>StrucFollower was developed and tested with PacBio long-read sequencing data and it's recommended to use high-quality assemblies. Alternatively to PacBio assemblies, hybrid-assembled genomes with Nanopre and Illumina data should work as well.</p>
 <h3 id="background">Background</h3>
 <p>All three sub-modules have a similar underlying mechanism. As an input the GenBank or the FASTA file of the ancestral strain and the mutated strain are required. Depending on the sub-module, either the ancestral or the mutated genome is chunked into smaller sequences using a sliding window. Typically a window size of 500 base-pairs and start-shift of 100 base-pairs is used. Below you can see an example of chunked sequences aligned to the genome itself:</p>
-<p><img alt="chunked_sequences" src="chunks.png" /></p>
+<p><img alt="chunked_sequences" src="chunks.svg" /></p>
 <p>This chunks are then aligned ether to the ancestral or the mutated genome. For a more detailed description of the alignment check the according sub-module description.</p>
 <h2 id="deletion-detection">Deletion Detection</h2>
 <h3 id="background_1">Background</h3>
 <p>To detect deletions StrucFollower chunks the mutated genome into smaller chunks. These chunks are aligned to the ancestral genome. The alignment is scanned for areas with no coverage. In areas with no coverage the given sequence is present in the ancestral strain but absent the the mutated strain.<br />
-In order to find the positions of the deleted sequences in the mutated strain, the area around the identified sequence in the ancestral strain is extracted and aligned to the mutated strain. Based on this alignment the positions in the mutated genome can be identified.</p>
+In order to find the positions of the deleted sequences in the mutated strain, the area around the identified sequence in the ancestral strain is extracted and aligned to the mutated strain. Based on this alignment the positions in the mutated genome are identified.</p>
 <h3 id="usage">Usage</h3>
 <pre><code>usage: detect_deletions [-h] [--plot] ancestral mutant out_dir
 
@@ -487,6 +527,26 @@ optional arguments:
   -h, --help  show this help message and exit
   --plot      plots alignment of deletions
 </code></pre>
+<p>Example:</p>
+<pre><code>detect_deletions --plot ancestral.fasta mutant.gbk ./
+</code></pre>
+<h3 id="outputs">Outputs</h3>
+<ul>
+<li><code>no_coverage.tsv</code> - Outputs all positions with no coverage in the ancestral genome. </li>
+<li><code>deletions.tsv</code> - Outputs all deleted sequences containing the positions in the mutated strain (first two columns) and the ancestral strain (<code>chromosome_origin</code> and <code>position_origin</code>).  </li>
+<li><code>deletions.annotated.tsv</code> - Stores additionally which products were deleted. </li>
+<li><code>plasmids.tsv</code> - Outputs all entirely deleted plasmdis. Because the contigs are missing in the mutated strains the postions can only be outputted based on the ancestral genome.</li>
+<li><code>plasmids.annotated.tsv</code> - Stores additionally whcih products were located on the plasmids</li>
+<li><code>plots</code> - Optional output<ul>
+<li><code>alignments</code> - Visualizes alignments of areas located in <code>no_coverage.tsv</code>. Helps assess the quality of detected deleted sequence.</li>
+<li><code>annotations</code> - Visualizes the annotation of the deleted sequence.</li>
+</ul>
+</li>
+</ul>
+<h4 id="plots">Plots</h4>
+<p>Below you can see an example of a visualization of a detected deletion.  </p>
+<p><img alt="deletion" src="deletion.png" /></p>
+<p>The ID of the chunk consits of the contig name and the enumerated counter of the chunk. As you you can see the highest counter on the left side of the gap is 25082. The counter is continued on the right side with 25083. This continuity ensures us that the gap in the alignments is due to a deleted sequence. In this example we can say pretty confidently that we identified a deleted sequence. If the counters wouldn't be continuous or even come from different contigs the confidence would be lower.</p>
 <h2 id="insertion-detection">Insertion Detection</h2>
 <h2 id="horizontal-gene-transfer">Horizontal Gene Transfer</h2>
 
