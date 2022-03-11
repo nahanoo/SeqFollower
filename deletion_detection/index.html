@@ -267,6 +267,36 @@
   
   
     <li class="md-nav__item">
+      <a href="../insertion_detection/" class="md-nav__link">
+        Insertion Detection
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../horizontal_gene_transfer/" class="md-nav__link">
+        Horizontal Gene Transfer
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../about/" class="md-nav__link">
         About
       </a>
@@ -337,24 +367,24 @@
 
 <h1 id="deletion-detection">Deletion Detection</h1>
 <h2 id="principle">Principle</h2>
-<p>To detect deletions, StrucFollower chunks the genome of the mutated strain into smaller chunks. These chunks are aligned to the ancestral genome. The alignment is scanned for areas with no coverage. In areas with no coverage the given sequence is present in the genome of the ancestral strain but absent the genome of the mutated strain.
+<p>To detect deletions StrucFollower chunks the genome of the mutated strain into smaller chunks. These chunks are aligned to the ancestral genome. The alignment is scanned for areas with no coverage. In areas with no coverage the given sequence is present in the genome of the ancestral strain but absent the genome of the mutated strain.
 In order to find the positions of the deleted sequences in the genome of the mutated strain, the area around the identified sequence in the genome of the ancestral strain is extracted and aligned to the genome of the mutated strain. Based on this alignment the positions in the genome of the mutant are identified.</p>
 <h2 id="usage">Usage</h2>
 <pre><code>usage: detect_deletions [-h] [--plot] ancestral mutant out_dir
 
-Detect insertions in evolved bacterial strains.
+Detect deletions in evolved bacterial strains.
 
 positional arguments:
-  ancestral   fasta file of the ancestral strain
-  mutant      genbank file of the mutated strain.
+  ancestral   genbank file of the ancestral strain
+  mutant      fasta file of the mutated strain.
   out_dir     output directory
 
 optional arguments:
   -h, --help  show this help message and exit
-  --plot      plots alignment of deletions
+  --plot      plots alignment around regions of deletions
 </code></pre>
 <p>Example:</p>
-<pre><code>detect_deletions --plot ancestral.fasta mutant.gbk ./
+<pre><code>detect_deletions --plot ancestral.gbk mutant.fasta ./
 </code></pre>
 <h2 id="outputs">Outputs</h2>
 <ul>
@@ -371,7 +401,7 @@ optional arguments:
 </ul>
 <p>Visualization of a detected deletion
 <img alt="deletion" src="../deletion.png" />
-The base-track is the genome of the ancestral strain and the aligned sequences the sequence chunks of the genome of the mutant.
+The base-track is the genome of the ancestral strain and the aligned sequences chunks of the genome of the mutated strain.
 The ID of the chunk consists of the contig name and the enumerated counter of the chunk. As you you can see the highest counter on the left side of the gap is 25082. The counter is continued on the right side with 25083. This continuity ensures us that the gap in the alignments is due to a deleted sequence. In this example we can say pretty confidently that we identified a deleted sequence. If the counters wouldn't be continuous or even come from different contigs the confidence would be lower.</p>
 
               
@@ -402,13 +432,13 @@ The ID of the chunk consists of the contig name and the enumerated counter of th
       
       
         
-        <a href="../about/" class="md-footer__link md-footer__link--next" aria-label="Next: About" rel="next">
+        <a href="../insertion_detection/" class="md-footer__link md-footer__link--next" aria-label="Next: Insertion Detection" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              About
+              Insertion Detection
             </div>
           </div>
           <div class="md-footer__button md-icon">

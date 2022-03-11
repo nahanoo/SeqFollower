@@ -13,7 +13,7 @@
     
     
       
-        <title>About - StrucFollower</title>
+        <title>Insertion Detection - StrucFollower</title>
       
     
     
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#about-page" class="md-skip">
+        <a href="#insertion-detection" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              About
+              Insertion Detection
             
           </span>
         </div>
@@ -210,11 +210,66 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../insertion_detection/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Insertion Detection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Insertion Detection
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#principle" class="md-nav__link">
+    Principle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    Outputs
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -240,21 +295,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
         About
       </a>
-      
     </li>
   
 
@@ -279,6 +324,35 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#principle" class="md-nav__link">
+    Principle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    Outputs
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -291,7 +365,41 @@
                 
 
 
-<h1 id="about-page">About page</h1>
+<h1 id="insertion-detection">Insertion Detection</h1>
+<h2 id="principle">Principle</h2>
+<p>To detect insertions StrucFollower chunks the genome of the ancestral strain into smaller chunks. These chunks are aligned to the genome of the mutated strain. The alignment is scanned for areas with no coverage. In areas with no coverage the given sequence is present in the genome of the mutated strain but absent the genome of the ancestral strain.</p>
+<h2 id="usage">Usage</h2>
+<pre><code>usage: detect_insertions [-h] [--plot] ancestral mutant out_dir
+
+Detect insertions in evolved bacterial strains.
+
+positional arguments:
+  ancestral   fasta file of the ancestral strain
+  mutant      genbank file of the mutated strain
+  out_dir     output directory
+
+optional arguments:
+  -h, --help  show this help message and exit
+  --plot      if this flag is added the alignment of every insertion is plotted
+</code></pre>
+<p>Example:</p>
+<pre><code>detect_insertions --plot ancestral.fasta mutant.gbk ./
+</code></pre>
+<h2 id="outputs">Outputs</h2>
+<ul>
+<li><code>insertions.tsv</code> - Outputs all positions with inserted sequences</li>
+<li><code>insertions.annotated</code> - Additionally outputs which products were inserted</li>
+<li><code>plots</code> - Optional<ul>
+<li><code>alignments</code> - Visualizes alignments of areas with no coverage. </li>
+<li><code>annotations</code> - Visualizes the annotation of the inserted sequence.</li>
+</ul>
+</li>
+</ul>
+<p>Visualization of a detected insertion
+<img alt="insertion" src="../insertion.png" />
+The base-track is the genome of the mutated strain and the aligned sequences the chunks of the genome of the ancestral strain.
+Because we aligned the genome of the ancestral strain to the genome of the mutated strain, insertions are visible as areas with no coverage.<br />
+The ID of the chunk consists of the contig name and the enumerated counter of the chunk. As you you can see the highest counter on the right side of the gap is 14429. The counter is continued on the left side with 14429. This continuity ensures us that the gap in the alignments is due to a inserted sequence. In this example we can say pretty confidently that we identified an inserted sequence. If the counters wouldn't be continuous or even come from different contigs the confidence would be lower.</p>
 
               
             </article>
@@ -305,7 +413,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../horizontal_gene_transfer/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Horizontal Gene Transfer" rel="prev">
+        <a href="../deletion_detection/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Deletion Detection" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -314,11 +422,26 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Horizontal Gene Transfer
+              Deletion Detection
             </div>
           </div>
         </a>
       
+      
+        
+        <a href="../horizontal_gene_transfer/" class="md-footer__link md-footer__link--next" aria-label="Next: Horizontal Gene Transfer" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Horizontal Gene Transfer
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
       
     </nav>
   
