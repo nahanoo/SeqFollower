@@ -8,19 +8,19 @@
       
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
     
     
       
-        <title>StrucFollower</title>
+        <title>Detect insertions - StrucFollower</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.2d9f7617.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.2d9f7617.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.e6a45f82.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.e6a45f82.min.css">
         
           
           
@@ -39,7 +39,7 @@
       
     
     
-    <script>__md_scope=new URL(".",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#welcome-to-strucfollower" class="md-skip">
+        <a href="#insertion-detection" class="md-skip">
           Skip to content
         </a>
       
@@ -77,7 +77,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="StrucFollower" class="md-header__button md-logo" aria-label="StrucFollower" data-md-component="logo">
+    <a href=".." title="StrucFollower" class="md-header__button md-logo" aria-label="StrucFollower" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -96,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              Detect insertions
             
           </span>
         </div>
@@ -163,7 +163,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="StrucFollower" class="md-nav__button md-logo" aria-label="StrucFollower" data-md-component="logo">
+    <a href=".." title="StrucFollower" class="md-nav__button md-logo" aria-label="StrucFollower" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -173,6 +173,36 @@
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../detect_deletions/" class="md-nav__link">
+        Detect deletions
+      </a>
+    </li>
+  
+
     
       
       
@@ -192,12 +222,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Home
+          Detect insertions
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="." class="md-nav__link md-nav__link--active">
-        Home
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Detect insertions
       </a>
       
         
@@ -216,29 +246,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#introduction" class="md-nav__link">
-    Introduction
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    Installation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#input-data" class="md-nav__link">
-    Input data
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#principle" class="md-nav__link">
     Principle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    Outputs
   </a>
   
 </li>
@@ -259,37 +282,7 @@
   
   
     <li class="md-nav__item">
-      <a href="detect_deletions/" class="md-nav__link">
-        Detect deletions
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="detect_insertions/" class="md-nav__link">
-        Detect insertions
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="horizontal_gene_transfer/" class="md-nav__link">
+      <a href="../horizontal_gene_transfer/" class="md-nav__link">
         HGT
       </a>
     </li>
@@ -304,7 +297,7 @@
   
   
     <li class="md-nav__item">
-      <a href="about/" class="md-nav__link">
+      <a href="../about/" class="md-nav__link">
         About
       </a>
     </li>
@@ -338,29 +331,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#introduction" class="md-nav__link">
-    Introduction
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    Installation
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#input-data" class="md-nav__link">
-    Input data
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#principle" class="md-nav__link">
     Principle
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outputs" class="md-nav__link">
+    Outputs
   </a>
   
 </li>
@@ -379,34 +365,41 @@
                 
 
 
-<h1 id="welcome-to-strucfollower">Welcome to StrucFollower</h1>
-<h2 id="introduction">Introduction</h2>
-<p>This package helps you to identify deleted or inserted sequences in evolved bacterial strains.<br />
-For example if you evolved antibiotic resistance to a bacterial strain this package helps you to identify sequences which were integrated or deleted in the genome during evolution. With its support for GenBank files StrucFollower also tells you which products were inserted or deleted. StrucFollower optionally generates visualizations of alignments of inserted or deleted sequences which can help in assessing the confidence of the detected sequence.  </p>
-<p>Additionally if you evolved your bacterial strain with other bacterial strains in co-culture, StrucFollower has a feature which identifies sequences which were integrated in the genome from the other bacterial strains.</p>
-<p>This package has very few dependencies and because of the simple design it's fast and reliable. </p>
-<h2 id="installation">Installation</h2>
-<p>This package requires <code>SAMtools&gt;=1.11</code> and <code>minimap2</code> in your PATH. If haven't installed those dependencies already you can install them with <code>conda</code>:</p>
-<pre><code>conda install -c bioconda samtools
-conda install -c bioconda minimap2 
-</code></pre>
-<p>StrucFollower itself can be installed with pip:</p>
-<pre><code>pip install git+https://github.com/nahanoo/deletion_detection.git
-</code></pre>
-<p>StrucFolower creates three console scripts which are independently callable. Click on the console script name for the detailed documentation of the according sub-module. </p>
-<ul>
-<li><a href="detect_deletions"><code>detect_deletions</code></a> - Detects deleted sequences.  </li>
-<li><a href="detect_insertions"><code>detect_insertions</code></a> - Detects inserted sequences.  </li>
-<li><a href="horizontal_gene_transfer"><code>detect_hgts</code></a> - Detects sequences integrated in the genome from other bacterial strains.</li>
-</ul>
-<h2 id="input-data">Input data</h2>
-<p>StrucFollower was developed and tested with PacBio long-read sequencing data and it's recommended to use high-quality assemblies. As an alternative to PacBio assemblies, hybrid-assemblies with Nanopre and Illumina data should work as well.</p>
+<h1 id="insertion-detection">Insertion Detection</h1>
 <h2 id="principle">Principle</h2>
-<p>All three sub-modules have a similar underlying mechanism. As an input the GenBank or the FASTA file of the ancestral strain (ancestor) and the mutated strain (mutant) are required. Depending on the sub-module, either the genome of the ancestor or the mutant is chunked into smaller sequences using a sliding window. Typically a window size of 500 base-pairs and a start-shift of 100 base-pairs is used. Below you can see an example of chunked sequences aligned to the genome itself:</p>
-<p><img alt="chunked_sequences" src="chunks.png" /></p>
-<p>The sequence name consists of the contig name and an enumerated counter of the chunk. This helps us to verify deletions or insertions with the generated visualizations. Below you can see an example of a visualization for a detected insertion where the chunked genome of the mutant was aligned to the genome of the ancestor.</p>
-<p><img alt="insertion" src="insertion.png" /></p>
-<p>The gap in the alignment means that the sequence is only present in the mutant but not in the ancestor. Because of the continous counters visible in the sequence names we can see that the inserted sequence is flanked by high-quality alignments which increases the confidence in the detected insertion.</p>
+<p>To detect insertions StrucFollower chunks the genome of the ancestral strain into smaller chunks. These chunks are aligned to the genome of the mutated strain. The alignment is scanned for areas with no coverage. In areas with no coverage the given sequence is present in the genome of the mutated strain but absent the genome of the ancestral strain.</p>
+<h2 id="usage">Usage</h2>
+<pre><code>usage: detect_insertions [-h] [--plot] ancestral mutant out_dir
+
+Detect insertions in evolved bacterial strains.
+
+positional arguments:
+  ancestral   fasta file of the ancestral strain
+  mutant      genbank file of the mutated strain
+  out_dir     output directory
+
+optional arguments:
+  -h, --help  show this help message and exit
+  --plot      if this flag is added the alignment of every insertion is plotted
+</code></pre>
+<p>Example:</p>
+<pre><code>detect_insertions --plot ancestral.fasta mutant.gbk ./
+</code></pre>
+<h2 id="outputs">Outputs</h2>
+<ul>
+<li><code>insertions.tsv</code> - Outputs all positions with inserted sequences</li>
+<li><code>insertions.annotated</code> - Additionally outputs which products were inserted</li>
+<li><code>plots</code> - Optional<ul>
+<li><code>alignments</code> - Visualizes alignments of areas with no coverage. </li>
+<li><code>annotations</code> - Visualizes the annotation of the inserted sequence.</li>
+</ul>
+</li>
+</ul>
+<p>Visualization of a detected insertion
+<img alt="insertion" src="../insertion.png" />
+The base-track is the genome of the mutated strain and the aligned sequences the chunks of the genome of the ancestral strain.
+Because we aligned the genome of the ancestral strain to the genome of the mutated strain, insertions are visible as areas with no coverage.<br />
+The ID of the chunk consists of the contig name and the enumerated counter of the chunk. As you you can see the highest counter on the right side of the gap is 14429. The counter is continued on the left side with 14429. This continuity ensures us that the gap in the alignments is due to a inserted sequence. In this example we can say pretty confidently that we identified an inserted sequence. If the counters wouldn't be continuous or even come from different contigs the confidence would be lower.</p>
 
               
             </article>
@@ -419,15 +412,30 @@ conda install -c bioconda minimap2
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
+        
+        <a href="../detect_deletions/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Detect deletions" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Detect deletions
+            </div>
+          </div>
+        </a>
+      
       
         
-        <a href="detect_deletions/" class="md-footer__link md-footer__link--next" aria-label="Next: Detect deletions" rel="next">
+        <a href="../horizontal_gene_transfer/" class="md-footer__link md-footer__link--next" aria-label="Next: HGT" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Detect deletions
+              HGT
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -457,10 +465,10 @@ conda install -c bioconda minimap2
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
     
     
-      <script src="assets/javascripts/bundle.467223ff.min.js"></script>
+      <script src="../assets/javascripts/bundle.467223ff.min.js"></script>
       
     
   </body>
