@@ -12,7 +12,14 @@ setup(name='deletion_detection',
                         'dna_features_viewer'],
       entry_points={
           'console_scripts': [
+<<<<<<< HEAD
               'detect_deletions = deletion_detection.main:main'
           ]
       }
      )
+=======
+              'detect_hgts = hgt.main:main'
+          ]
+      }
+      )
+>>>>>>> hgt_detection/main
