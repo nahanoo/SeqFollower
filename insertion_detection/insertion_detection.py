@@ -3,35 +3,49 @@ from os import mkdir, remove
 from io import StringIO
 from subprocess import call, run as r, DEVNULL, STDOUT
 from Bio import SeqIO
+from Bio.SeqRecord import SeqRecord
 import pandas as pd
 from .plotting import plot_alignment, plot_genbank
 
 
 class Insertion():
     def __init__(self, args):
+        # Parsed files
         self.out_dir = args.out_dir
         self.reference = args.ancestral
         self.mutant_gbk = args.mutant
 
+        # Step and window size for chunking
         self.step = 100
         self.window = 500
 
+        # Mutant contigs and features
         self.mutant_contigs = [contig for contig in SeqIO.parse(
             self.mutant_gbk, 'genbank')]
         self.mutant_features = self.parse_genbank()
-
         self.mutant_fasta = join(self.out_dir, 'mutant.fasta')
         with open(join(self.out_dir, 'mutant.fasta'), 'w') as handle:
             SeqIO.write(self.mutant_contigs, handle, 'fasta')
 
+        # Reference contigs
         self.reference_contigs = [contig for contig in SeqIO.parse(
             self.reference, 'fasta')]
+        
+        # Chunked mutant
+        self.chunks = join(self.out_dir,
+                      "chunked_sequences.fasta")
 
+        # Mutant reference alignments
         self.bam = join(self.out_dir, "aligned.sorted.bam")
-        self.insertions = None
 
+        # Out dataframes
+        self. insertions = pd.DataFrame(columns=['chromosome', 'position', 'length'])
         self.annotated = pd.DataFrame(
             columns=['chromosome', 'position', 'length', 'product'])
+
+        # Items to trash
+        self.trash = []
+        self.trash.append(self.mutant_fasta)
 
         if not exists(join(self.out_dir, 'plots')):
             mkdir(join(self.out_dir, 'plots'))
@@ -75,11 +89,10 @@ class Insertion():
         for contig in self.reference_contigs:
             # Creates chunks of every contig
             assembly_chunks += self.chunker(contig, self.window, self.step)
-        target = join(self.out_dir,
-                      "chunked_sequences.fasta")
         # Dumps chunks to fasta
-        with open(target, "w") as handle:
+        with open(self.chunks, "w") as handle:
             SeqIO.write(assembly_chunks, handle, "fasta")
+        self.trash.append(self.chunks)
 
     def mapper(self):
         """Maps chunked sequence to all ancesteral genomes
@@ -107,32 +120,40 @@ class Insertion():
         # Calling samtools and surpressing stdout
         call(" ".join(cmd), shell=True, stdout=DEVNULL,
              stderr=STDOUT)
+        if sam not in self.trash:
+            self.trash.append(sam)
+            self.trash.append(self.bam)
+            self.trash.append(self.bam+'.bai')
+        
 
     def get_insertions(self):
+        """Get all areas with no coverage."""
         cmd = ['samtools', 'depth', '-aa', '-J', '-Q', '0', self.bam]
         process = r(cmd, capture_output=True)
         df = pd.read_csv(StringIO(process.stdout.decode()), sep='\t')
         df.columns = ['chromosome', 'position', 'coverage']
         df = df[df['coverage'] == 0]
         self.insertions = self.concat_insertions(df)
+        # Switching to zero based output
         self.insertions['position'] = self.insertions['position'] - 1
 
     def concat_insertions(self, df):
-        out = pd.DataFrame(columns=['chromosome', 'position', 'length'])
+        """Concatting seperated positions to insertions with n length."""
         i = -1
         prev_pos = 0
         prev_contig = None
         for contig, pos in zip(df['chromosome'], df['position']):
             if (prev_contig == contig) & (pos - 1 == prev_pos):
-                out.at[i, 'length'] += 1
+                self.insertions.at[i, 'length'] += 1
             else:
                 i += 1
-                out.loc[i] = [contig, pos, 1]
+                self.insertions.loc[i] = [contig, pos, 1]
             prev_pos = pos
             prev_contig = contig
-        return out
+        return self.insertions
 
     def annotate(self):
+        """Annotated insertions."""
         i = 0
         for counter, row in self.insertions.iterrows():
             c = row['chromosome']
@@ -153,12 +174,14 @@ class Insertion():
         return products
 
     def dump(self):
+        """Write insertions to tsv."""
         self.insertions.to_csv(
             join(self.out_dir, 'insertions.tsv'), sep='\t', index=False)
         self.annotated.to_csv(
             join(self.out_dir, 'insertions.annotated.tsv'), sep='\t', index=False)
 
     def plot_insertions(self):
+        """Plot alignments."""
         out = join(self.out_dir, 'plots', 'alignments')
         if not exists(out):
             mkdir(out)
@@ -169,6 +192,7 @@ class Insertion():
                            length, self.window, out)
 
     def plot_annotation(self):
+        """Plot inserted products."""
         out = join(self.out_dir, 'plots', 'annotations')
         if not exists(out):
             mkdir(out)
@@ -178,8 +202,6 @@ class Insertion():
                 row['position']+row['length'], out)
 
     def clean(self):
-        trash = [self.mutant_fasta,
-                 join(self.out_dir, 'chunked_sequences.fasta')
-                 ]
-        for item in trash:
+        """Clean temporary files."""
+        for item in self.trash:
             remove(item)
