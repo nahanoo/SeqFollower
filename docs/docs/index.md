@@ -3,7 +3,7 @@
 ## Introduction
 
 This package helps you to identify deleted or inserted sequences in evolved bacterial strains.  
-For example if you evolved antibiotic resistance to a bacterial strain this package helps you to identify sequences which were integrated or deleted in the genome during evolution. With its support for GenBank files StrucFollower also tells you which products were inserted or deleted. StrucFollower optionally generates visualizations of alignments from which the inserted or deleted sequences were detected which can help in assessing the confidence of the detected sequences.  
+For example if you evolved antibiotic resistance to a bacterial strain this package helps you to identify sequences which were integrated or deleted during evolution. With its support for GenBank files StrucFollower also tells you which products were inserted or deleted. StrucFollower optionally generates visualizations of alignments from which the inserted or deleted sequences were detected which can help in assessing the confidence of the detected sequences.  
 
 If you evolved your bacterial strain with other bacterial strains in co-culture, StrucFollower has a feature which identifies horizontal gene transfers (HGTs).
 
@@ -39,12 +39,12 @@ StrucFollower was developed and tested with PacBio long-read sequencing data and
 All three sub-modules have a similar mechanism. As an input the GenBank or the FASTA file of the ancestral strain (ancestor) and the mutated strain (mutant) are required. 
 To detect HGTs the FASTA files of the other bacterial strains of the co-culture are required additionally.  
 
-Depending on the sub-module, either the genome of the ancestor or the mutant is chunked into smaller sequences using a sliding window. Typically a window size of 500 base-pairs and a start-shift of 100 base-pairs is used. Below you can see an example of chunked sequences aligned to the genome itself:
+Depending on the sub-module either the genome of the ancestor or the mutant is chunked into smaller sequences using a sliding window. Typically a window size of 500 base-pairs and a start-shift of 100 base-pairs is used. Below you can see an example of chunked sequences aligned to the genome itself:
 
 ![chunked_sequences](chunks.png)
 *The sequence name consists of the contig name and an enumerated counter of the chunk. This helps us in investigating deleted or inserted sequences with the generated visualizations.*  
 
-Depending on the sub-module, those chunks are then aligned either to the ancestor, mutant or the references of the strains from the co-culture using `minimap2`.  
+Those chunks are then aligned either to the ancestor, mutant or the references of the strains from the co-culture using `minimap2`.  
 A detailed description of the alignment process is available in the different sub-module documentations.  
 
 Optionally, the alignments which were used to detect the deleted or inserted sequences are plotted which can help in assessing the quality of the detections. More information about how to interpret those alignment plots is available in the different sub-module documentations.
