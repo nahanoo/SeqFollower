@@ -3,3 +3,4 @@ deletion_detection/testdata
 deletion_detection.egg-info/
 deletion_detection/__pycache__
 .*DS_Store
+insertion_detection/test_data/
