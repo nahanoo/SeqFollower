@@ -3,7 +3,7 @@ nav:
     - Home: index.md
     - Detect deletions: detect_deletions.md
     - Detect insertions: detect_insertions.md
-    - HGT: horizontal_gene_transfer.md
+    - Detect HGTs: detect_hgts.md
     - About: about.md
 
 
