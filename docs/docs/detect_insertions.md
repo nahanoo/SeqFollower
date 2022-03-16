@@ -31,7 +31,7 @@ detect_insertions --plot ancestor.fasta mutant.gbk ./
 * `insertions.tsv` - Outputs all positions with inserted sequences
 * `insertions.annotated` - Additionally outputs which products were inserted
 * `plots` - Optional
-    * `alignments` - Visualizes alignments used to detect the deleted sequences.
+    * `alignments` - Visualizes alignments used to detect the inserted sequences.
     * `annotations` - Visualizes the annotations of the inserted sequences.
 
 ## Plots

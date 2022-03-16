@@ -3,9 +3,9 @@
 ## Introduction
 
 This package helps you to identify deleted or inserted sequences in evolved bacterial strains.  
-For example if you evolved antibiotic resistance to a bacterial strain this package helps you to identify sequences which were integrated or deleted during evolution. With its support for GenBank files StrucFollower also tells you which products were inserted or deleted. StrucFollower optionally generates visualizations of alignments from which the inserted or deleted sequences were detected which can help in assessing the confidence of the detected sequences.  
+For example if you evolved antibiotic resistance to a bacterial strain this package helps you to identify sequences which were integrated or deleted during evolution. With its support for GenBank files StrucFollower also tells you which products were inserted or deleted. StrucFollower optionally generates visualizations of alignments from which the inserted or deleted sequences were detected which helping in assessing the confidence of the detected sequences.  
 
-If you evolved your bacterial strain with other bacterial strains in co-culture, StrucFollower has a feature which identifies horizontal gene transfers (HGTs).
+If you evolved your bacterial strain with other bacterial strains in co-culture StrucFollower has a feature which identifies horizontal gene transfers (HGTs).
 
 This package has very few dependencies and because of the simple design it's fast and reliable.  
 Every sub-module takes less than 2 minutes to run locally.
