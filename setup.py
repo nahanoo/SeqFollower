@@ -1,25 +1,20 @@
 from setuptools import setup
 
-setup(name='deletion_detection',
+setup(name='SeqFollower',
       version='1.0',
-      description='Detects deletions from assemblies of evolved bacteria.',
+      description='Detect inserted or deleted sequences from assemblies of evolved bacterial strains.',
       author='Eric Ulrich',
-      url='https://github.com/nahanoo/deletion_detection',
-      packages=['deletion_detection'],
+      url='https://github.com/nahanoo/SeqFollower',
+      packages=['deletion_detection','insertion_detection','hgt_detection'],
       install_requires=['pandas',
                         'pysam',
                         'Bio',
                         'dna_features_viewer'],
       entry_points={
           'console_scripts': [
-<<<<<<< HEAD
-              'detect_deletions = deletion_detection.main:main'
+              'detect_deletions = deletion_detection.main:main',
+              'detect_insertions = insertion_detection.main:main',
+              'detect_hgts = hgt_detection.main:main',
           ]
       }
      )
-=======
-              'detect_hgts = hgt.main:main'
-          ]
-      }
-      )
->>>>>>> hgt_detection/main
