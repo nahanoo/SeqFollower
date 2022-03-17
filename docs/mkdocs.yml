@@ -1,4 +1,4 @@
-site_name: StrucFollower
+site_name: SeqFollower
 nav:
     - Home: index.md
     - Detect deletions: detect_deletions.md
