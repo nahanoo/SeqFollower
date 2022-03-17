@@ -12,8 +12,8 @@ usage: detect_insertions [-h] [--plot] ancestral mutant out_dir
 Detect insertions in evolved bacterial strains.
 
 positional arguments:
-  ancestral   fasta file of the ancestor
   mutant      genbank file of the mutant
+  ancestral   fasta file of the ancestor
   out_dir     output directory
 
 optional arguments:
