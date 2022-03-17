@@ -1,11 +1,11 @@
-# Welcome to StrucFollower
+# Welcome to SeqFollower
 
 ## Introduction
 
 This package helps you to identify deleted or inserted sequences in evolved bacterial strains.  
-For example if you evolved antibiotic resistance to a bacterial strain this package helps you to identify sequences which were integrated or deleted during evolution. With its support for GenBank files StrucFollower also tells you which products were inserted or deleted. StrucFollower optionally generates visualizations of alignments from which the inserted or deleted sequences were detected which helping in assessing the confidence of the detected sequences.  
+For example if you evolved antibiotic resistance to a bacterial strain this package helps you to identify sequences which were integrated or deleted during evolution. With its support for GenBank files SeqFollower also tells you which products were inserted or deleted. SeqFollower optionally generates visualizations of alignments from which the inserted or deleted sequences were detected which helping in assessing the confidence of the detected sequences.  
 
-If you evolved your bacterial strain with other bacterial strains in co-culture StrucFollower has a feature which identifies horizontal gene transfers (HGTs).
+If you evolved your bacterial strain with other bacterial strains in co-culture SeqFollower has a feature which identifies horizontal gene transfers (HGTs).
 
 This package has very few dependencies and because of the simple design it's fast and reliable.  
 Every sub-module takes less than 2 minutes to run locally.
@@ -19,12 +19,12 @@ conda install -c bioconda samtools
 conda install -c bioconda minimap2 
 ```
 
-StrucFollower itself can be installed with pip:
+SeqFollower itself can be installed with pip:
 ```
-pip install git+https://github.com/nahanoo/StrucFollower.git
+pip install git+https://github.com/nahanoo/SeqFollower.git
 ```
 
-StrucFollower creates three console scripts which are independently callable. Click on the console script name for the detailed documentation of the sub-module. 
+SeqFollower creates three console scripts which are independently callable. Click on the console script name for the detailed documentation of the sub-module. 
 
 * [`detect_deletions`](detect_deletions) - Detects deleted sequences.  
 * [`detect_insertions`](detect_insertions) - Detects inserted sequences.  
@@ -32,7 +32,7 @@ StrucFollower creates three console scripts which are independently callable. Cl
 
 ## Input data
 
-StrucFollower was developed and tested with PacBio long-read sequencing data and it's recommended to use high-quality assemblies. As an alternative to PacBio assemblies, hybrid-assemblies with Nanopre and Illumina data should work as well.
+SeqFollower was developed and tested with PacBio long-read sequencing data and it's recommended to use high-quality assemblies. As an alternative to PacBio assemblies, hybrid-assemblies with Nanopre and Illumina data should work as well.
 
 ## Principle
 
@@ -51,5 +51,5 @@ Optionally, the alignments which were used to detect the deleted or inserted seq
 
 ## Contributing
 
-The development of StrucFollower takes place on [GitHub](https://github.com/nahanoo/StrucFollower).  
+The development of SeqFollower takes place on [GitHub](https://github.com/nahanoo/SeqFollower).  
 Head over there if you are interested in the code or want to contribute to the project.

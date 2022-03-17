@@ -2,7 +2,7 @@
 
 ## Alignment and detection
 
-To detect insertions StrucFollower chunks the genome of the ancestor into smaller chunks. Those chunks are aligned to the genome of the mutant and the alignment is scanned for areas with no coverage. In areas with no coverage the given sequence is present in the genome of the mutant but absent the genome of the ancestor.
+To detect insertions SeqFollower chunks the genome of the ancestor into smaller chunks. Those chunks are aligned to the genome of the mutant and the alignment is scanned for areas with no coverage. In areas with no coverage the given sequence is present in the genome of the mutant but absent the genome of the ancestor.
 
 ## Usage
 

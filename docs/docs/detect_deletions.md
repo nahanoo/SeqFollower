@@ -2,7 +2,7 @@
 
 ## Alignment and detection
 
-To detect deletions StrucFollower chunks the genome of the mutant into smaller chunks. Those chunks are aligned to the genome of the ancestor and the alignment is scanned for areas with no coverage. In areas with no coverage the given sequence is present in the ancestor but absent in the mutant.  
+To detect deletions SeqFollower chunks the genome of the mutant into smaller chunks. Those chunks are aligned to the genome of the ancestor and the alignment is scanned for areas with no coverage. In areas with no coverage the given sequence is present in the ancestor but absent in the mutant.  
 The sequence flanking the alignment gap in the ancestor is extracted and aligned back to the genome of the mutant. Based on this alignment the positions in the genome of the mutant are identified.
 
 ## Usage
