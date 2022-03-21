@@ -1,5 +1,5 @@
 import argparse
-from .deletion_detection import Deletion
+from deletion_detection import Deletion
 from os.path import join
 
 
@@ -39,3 +39,5 @@ def main():
         d.plot_annotation()
     # Cleans temporary files
     d.clean()
+
+main()

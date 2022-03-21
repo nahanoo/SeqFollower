@@ -5,7 +5,7 @@ from subprocess import call, run as r, DEVNULL, STDOUT
 from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord
 import pandas as pd
-from .plotting import plot_alignment, plot_genbank
+from plotting import plot_alignment, plot_genbank
 import pysam
 
 
@@ -145,6 +145,7 @@ class Deletion():
         in strand deletion or deleted plasmids."""
         cmd = ['samtools', 'depth', '-aa', '-Q', '0', self.bam]
         process = r(cmd, capture_output=True)
+        print(self.reference_contigs,self.mutant_contigs)
         df = pd.read_csv(StringIO(process.stdout.decode()), sep='\t')
         df.columns = ['chromosome', 'position', 'coverage']
         # Masks for regions with no coverage
