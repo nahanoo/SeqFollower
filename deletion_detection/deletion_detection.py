@@ -220,12 +220,19 @@ class Deletion():
             self.mapper(self.mutant_fasta, tmp_seq, tmp_sam)
 
             a = pysam.AlignmentFile(tmp_bam)
+            identified = False
             for read in a:
                 if not (read.is_unmapped):
                     # Idetifying positions
                     deletions.loc[i] = [
                         read.reference_name, read.reference_start + rel_pos, l, c, p]
+                    identified = True
                     i += 1
+            if not identified:
+                deletions.loc[i] = [
+                        'not_found', 'not_found', l, c, p]
+                i += 1
+
         self.deletions = deletions
         # Deleting tmp_seq
         self.trash.append(tmp_seq)
